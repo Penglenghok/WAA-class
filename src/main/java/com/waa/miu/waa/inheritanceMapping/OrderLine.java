@@ -1,17 +1,19 @@
-package com.waa.miu.waa.entities;
+package com.waa.miu.waa.inheritanceMapping;
+
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
 @Entity
-public class Publisher {
+public class OrderLine {
 
     @Id
     private int id;
 
-    private String name;
+    private int quantity;
 
+    @ManyToOne
+    private Product products;
 
 }

@@ -1,4 +1,4 @@
-package com.waa.miu.waa.entities;
+package com.waa.miu.waa.inheritanceMapping;
 
 
 import jakarta.persistence.Entity;
@@ -13,8 +13,12 @@ public class Customer {
     @Id
     private int id;
 
-    private String name;
+    private String firstName;
 
-    @OneToMany
-    private List<Reservation> reservations;
+    private String lastName;
+
+
+    @OneToMany(mappedBy = "customer")
+    private List<Order> orders;
+
 }
