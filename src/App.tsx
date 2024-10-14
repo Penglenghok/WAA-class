@@ -1,9 +1,11 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import "./App.scss";
 import Comment from "./components/Comment";
 import avatar from "./images/bozai.png";
 import { orderBy } from "lodash";
 import moment from "moment";
+import Post from "./components/Post";
+import { AppContext } from "./AppProvider";
 
 const user = {
   uid: "30009257",
@@ -17,18 +19,10 @@ const tabs = [
 ];
 
 const App = () => {
-  const [comments, setcomments] = useState<Array<any>>([]);
+  const { comments, setcomments }: any = useContext(AppContext);
   const [content, setcontent] = useState("");
 
   const [currentFilter, setcurrentFilter] = useState<string>("");
-
-  useEffect(() => {
-    fetch("http://localhost:3004/comments").then((response) => {
-      response.json().then((data) => {
-        setcomments(data);
-      });
-    });
-  }, []);
 
   const onFilter = (filter: string) => {
     setcurrentFilter(filter);
@@ -88,30 +82,19 @@ const App = () => {
       </div>
 
       <div className="reply-wrap">
-        {/* comments */}
         <div className="box-normal">
-          {/* current logged in user profile */}
           <div className="reply-box-avatar">
             <div className="bili-avatar">
               <img className="bili-avatar-img" src={avatar} alt="Profile" />
             </div>
           </div>
-          <div className="reply-box-wrap">
-            {/* comment */}
-            <textarea
-              className="reply-box-textarea"
-              placeholder="tell something..."
-              value={content}
-              onChange={(e) => setcontent(e.target.value)}
-            />
-            {/* post button */}
-            <div className="reply-box-send" onClick={onNewComment}>
-              <div className="send-text">post</div>
-            </div>
-          </div>
+          <Post
+            content={content}
+            setcontent={setcontent}
+            onNewComment={onNewComment}
+          />
         </div>
-        {/* comment list */}
-        {comments?.map((item, index) => {
+        {comments?.map((item: any, index: number) => {
           return (
             <Comment key={index} data={item} onDelete={() => onDelete(index)} />
           );
