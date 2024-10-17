@@ -1,21 +1,24 @@
 import { Button, Col, Divider, Input, List, Row } from "antd";
 import { useAtom } from "jotai";
-import React, { useState } from "react";
+import { useState } from "react";
 import { postAtom } from "../atoms/post.atom";
 import { useNavigate } from "react-router-dom";
 
 export default function PostList() {
   const [posts, setPosts] = useAtom(postAtom);
 
-  const [text, settext] = useState("");
+  const [title, setTitle] = useState("");
+  const [content, setcontent] = useState("");
 
   const onSetPost = () => {
     const payload = {
       id: (Number(posts.at(-1)?.id ?? 0) + 1).toString(),
-      message: text,
+      title: title,
+      content: content,
     };
     setPosts([...posts, payload]);
-    settext("");
+    setTitle("");
+    setcontent("");
   };
 
   const navigate = useNavigate();
@@ -29,10 +32,16 @@ export default function PostList() {
       <Row gutter={16}>
         <Col>
           <Input
-            placeholder="Post Message"
+            placeholder="Title"
             size="large"
-            value={text}
-            onChange={(e) => settext(e.target.value)}
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
+          <Input
+            placeholder="Content"
+            size="large"
+            value={content}
+            onChange={(e) => setcontent(e.target.value)}
           />
         </Col>
         <Col>
@@ -51,7 +60,8 @@ export default function PostList() {
           <List.Item>
             <div>
               <p>ID: {item.id}</p>
-              <p>Message: {item.message}</p>
+              <p>Title: {item.title}</p>
+              <p>Content: {item.content}</p>
             </div>
             <Button onClick={() => onPostDetail(item.id)}>Detail</Button>
           </List.Item>

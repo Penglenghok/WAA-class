@@ -6,24 +6,30 @@ import { Button, Col, Divider, Input, Row } from "antd";
 
 export default function EditDetail() {
   const { id } = useParams();
+
   const [posts, setPosts] = useAtom(postAtom);
 
-  const [text, settext] = useState<string>("");
+  const [content, setContent] = useState<string>("");
+  const [title, settitle] = useState<string>("");
 
   const navigate = useNavigate();
 
   const selectedPost = () => {
-    return posts.find((post) => post.id == id) ?? { id: "", message: "" };
+    return (
+      posts.find((post) => post.id == id) ?? { id: "", content: "", title: "" }
+    );
   };
 
   useEffect(() => {
-    settext(selectedPost().message);
+    setContent(selectedPost().content);
+    settitle(selectedPost().title);
   }, []);
 
   const onEditPost = () => {
     const payload = {
       ...selectedPost(),
-      message: text,
+      title: title,
+      content: content,
     };
     const tmpPost = [...posts];
     tmpPost.splice(
@@ -38,16 +44,23 @@ export default function EditDetail() {
   return (
     <div>
       <Button onClick={() => navigate(-1)}>Back</Button>
-      <Divider/>
+      <Divider />
       <Row gutter={16}>
         <Col>
           <Input
-            placeholder=""
+            placeholder="Title"
             size="large"
-            value={text}
-            onChange={(e) => settext(e.target.value)}
+            value={title}
+            onChange={(e) => settitle(e.target.value)}
+          />
+          <Input
+            placeholder="Content"
+            size="large"
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
           />
         </Col>
+
         <Col>
           <Button size="large" type="primary" onClick={onEditPost}>
             Edit

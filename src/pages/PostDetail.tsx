@@ -20,14 +20,20 @@ export default function PostDetail() {
   return (
     <div>
       <Button onClick={() => navigate(-1)}>Back</Button>
+
       <Divider />
 
       <Card>
         <p>
           ID: <b>{selectedPost()?.id}</b>
         </p>
+
         <p>
-          Name: <b>{selectedPost()?.message}</b>
+          Title: <b>{selectedPost()?.title}</b>
+        </p>
+
+        <p>
+          Content: <b>{selectedPost()?.content}</b>
         </p>
 
         <Button onClick={onEditPost} type="primary">

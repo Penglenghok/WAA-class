@@ -1,3 +1,5 @@
 import { atom } from "jotai";
 
-export const postAtom = atom<Array<{ id: string; message: string }>>([]);
+export const postAtom = atom<
+  Array<{ id: string; title: string; content: string }>
+>([]);
